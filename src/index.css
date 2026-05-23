@@ -42,6 +42,27 @@
     filter: blur(6px);
     pointer-events: none;
   }
+
+  .speech-bubble {
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid #ffe8ee;
+    background: rgb(255 255 255 / 0.96);
+    backdrop-filter: blur(8px);
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-right: 1px solid #ffe8ee;
+    border-bottom: 1px solid #ffe8ee;
+    background: rgb(255 255 255 / 0.96);
+    transform: translateX(-50%) rotate(45deg);
+  }
 }
 
 .leaflet-container {

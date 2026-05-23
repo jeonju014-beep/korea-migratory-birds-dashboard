@@ -20,6 +20,8 @@ export interface BirdSpecies {
   trend?: '증가' | '감소' | '유지';
   description: string;
   image?: string;
+  /** 말풍선에 표시할 주요 정보 */
+  highlights: string[];
 }
 
 export const censusSummary = {
@@ -134,6 +136,12 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '감소',
     description: '뒷머리 깃이 위로 솟은 댕기가 특징. 논·습지·하천 삼각주에서 작은 무리로 월동.',
     image: birdImages.lapwing,
+    highlights: [
+      '📍 논·습지·하구 삼각주',
+      '🗓️ 10월 하순 ~ 이듬해 3월',
+      '✨ 뒷머리 댕기 깃이 포인트!',
+      '📉 서식지 감소로 관찰 지역 축소',
+    ],
   },
   {
     id: 'white-naped-crane',
@@ -144,6 +152,12 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '감소',
     description: '한강하구 등에서 겨울을 나는 대표적인 두루미류.',
     image: birdImages['white-naped-crane'],
+    highlights: [
+      '📍 한강하구 · 철원 평야',
+      '🦢 우아한 흰 목 & 검은 띠',
+      '⚠️ IUCN 취약(VU) 종',
+      '📉 개체 수 감소 추세',
+    ],
   },
   {
     id: 'whooper-swan',
@@ -154,6 +168,12 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '유지',
     description: '순천만·호수·하구 습지에서 대규모 무리 관찰.',
     image: birdImages['whooper-swan'],
+    highlights: [
+      '📍 순천만 · 호수 · 하구 습지',
+      '🎵 큰 고니 소리로 무리 이동',
+      '📏 날개 펼치면 2m 가까이',
+      '📊 겨울철 대표 관찰 종',
+    ],
   },
   {
     id: 'bean-goose',
@@ -165,6 +185,12 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '증가',
     description: '2024–2025 겨울철 기러기류 중 가장 많이 관찰된 종.',
     image: birdImages['bean-goose'],
+    highlights: [
+      '📊 2024–25 기러기류 1위!',
+      '📍 금강하구 · 강화 · 철원',
+      '🦆 V자 대형으로 이동',
+      '📈 전년 대비 증가 추세',
+    ],
   },
   {
     id: 'mallard',
@@ -175,6 +201,12 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '유지',
     description: '금강호 등 특정 지역에 대규모로 밀집하는 겨울철새.',
     image: birdImages.mallard,
+    highlights: [
+      '👑 겨울철 조사 개체 1위 종',
+      '📍 금강호 · 하구·호수 전역',
+      '🎨 수컷 녹색 머리가 특징',
+      '📊 국내 겨울철새 대표종',
+    ],
   },
   {
     id: 'spoonbill',
@@ -185,5 +217,11 @@ export const featuredBirds: BirdSpecies[] = [
     trend: '유지',
     description: '멸종위기종. 서해안·남해안 습지의 대표적 상징.',
     image: birdImages.spoonbill,
+    highlights: [
+      '⚠️ 멸종위기종 · 국가보호종',
+      '📍 서해안·남해안 갯벌·습지',
+      '🥄 주걱 모양 부리로 먹이 퍼먹기',
+      '🌏 전 세계 6,000마리대',
+    ],
   },
 ];
