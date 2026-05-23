@@ -5,11 +5,18 @@ import LeafletMapShell from './LeafletMapShell';
 
 const EURASIA_CENTER: LatLngExpression = [48, 70];
 
+/** CARTO Voyager — English place labels worldwide */
+const ENGLISH_TILE = {
+  url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+};
+
 const typeStyles = {
-  breeding: { color: '#c084fc', fill: '#e9d5ff', label: '번식지' },
-  stopover: { color: '#f4729a', fill: '#ffd1df', label: '이동 통과지' },
-  wintering: { color: '#e05580', fill: '#ffb3cc', label: '월동지' },
-  habitat: { color: '#8fd9c2', fill: '#b8e8d8', label: '서식지' },
+  breeding: { color: '#c084fc', fill: '#e9d5ff', label: 'Breeding' },
+  stopover: { color: '#f4729a', fill: '#ffd1df', label: 'Stopover' },
+  wintering: { color: '#e05580', fill: '#ffb3cc', label: 'Wintering' },
+  habitat: { color: '#8fd9c2', fill: '#b8e8d8', label: 'Habitat' },
 };
 
 export default function MigrationMap() {
@@ -28,8 +35,10 @@ export default function MigrationMap() {
           ]}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={ENGLISH_TILE.attribution}
+            url={ENGLISH_TILE.url}
+            subdomains="abcd"
+            maxZoom={20}
           />
           <Polyline
             positions={migrationPath}
@@ -41,7 +50,7 @@ export default function MigrationMap() {
           />
           {migrationRoute.map((point) => {
             const style = typeStyles[point.type];
-            const isKorea = point.name.includes('한반도');
+            const isKorea = point.name.includes('Korean Peninsula');
             return (
               <CircleMarker
                 key={point.name}

@@ -1,6 +1,7 @@
 import { lapwingInfo } from '../data/lapwing';
 import HabitatMap from './HabitatMap';
 import MigrationMap from './MigrationMap';
+import BirdImage from './BirdImage';
 
 export default function LapwingSection() {
   const facts = [
@@ -35,10 +36,11 @@ export default function LapwingSection() {
       <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-2">
         <div>
           <div className="overflow-hidden rounded-3xl border-4 border-white bg-white p-2 shadow-card">
-            <img
+            <BirdImage
               src={lapwingInfo.image.url}
               alt={lapwingInfo.image.alt}
               className="aspect-[4/3] w-full rounded-2xl object-cover"
+              fallbackEmoji="🪶"
             />
             <p className="px-2 py-2 text-center text-xs text-blush-300">
               📷 {lapwingInfo.image.credit}
@@ -88,11 +90,11 @@ export default function LapwingSection() {
             <div className="mt-3 flex flex-wrap gap-3 text-xs text-blush-400">
               <span className="cute-badge bg-blush-50">
                 <span className="inline-block h-0.5 w-5 border-t-2 border-dashed border-blush-400" />
-                가을 이동
+                Autumn migration
               </span>
               <span className="cute-badge bg-lilac-50">
                 <span className="inline-block h-0.5 w-5 border-t-2 border-dashed border-lilac-400" />
-                봄 이동
+                Spring migration
               </span>
             </div>
           </div>

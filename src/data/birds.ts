@@ -1,3 +1,5 @@
+import { birdImages } from './images';
+
 export interface BirdSite {
   name: string;
   region: string;
@@ -131,7 +133,7 @@ export const featuredBirds: BirdSpecies[] = [
     category: '겨울철새',
     trend: '감소',
     description: '뒷머리 깃이 위로 솟은 댕기가 특징. 논·습지·하천 삼각주에서 작은 무리로 월동.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Vanellus_vanellus_-_Northern_Lapwing.jpg/640px-Vanellus_vanellus_-_Northern_Lapwing.jpg',
+    image: birdImages.lapwing,
   },
   {
     id: 'white-naped-crane',
@@ -141,6 +143,7 @@ export const featuredBirds: BirdSpecies[] = [
     category: '겨울철새',
     trend: '감소',
     description: '한강하구 등에서 겨울을 나는 대표적인 두루미류.',
+    image: birdImages['white-naped-crane'],
   },
   {
     id: 'whooper-swan',
@@ -150,6 +153,7 @@ export const featuredBirds: BirdSpecies[] = [
     category: '겨울철새',
     trend: '유지',
     description: '순천만·호수·하구 습지에서 대규모 무리 관찰.',
+    image: birdImages['whooper-swan'],
   },
   {
     id: 'bean-goose',
@@ -160,6 +164,7 @@ export const featuredBirds: BirdSpecies[] = [
     count2025: '약 36.5만',
     trend: '증가',
     description: '2024–2025 겨울철 기러기류 중 가장 많이 관찰된 종.',
+    image: birdImages['bean-goose'],
   },
   {
     id: 'mallard',
@@ -169,6 +174,7 @@ export const featuredBirds: BirdSpecies[] = [
     category: '겨울철새',
     trend: '유지',
     description: '금강호 등 특정 지역에 대규모로 밀집하는 겨울철새.',
+    image: birdImages.mallard,
   },
   {
     id: 'spoonbill',
@@ -178,5 +184,6 @@ export const featuredBirds: BirdSpecies[] = [
     category: '겨울철새',
     trend: '유지',
     description: '멸종위기종. 서해안·남해안 습지의 대표적 상징.',
+    image: birdImages.spoonbill,
   },
 ];

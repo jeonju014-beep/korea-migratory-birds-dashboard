@@ -4,6 +4,7 @@ import StatsOverview from './components/StatsOverview';
 import DistributionMap from './components/DistributionMap';
 import BirdCards from './components/BirdCards';
 import LapwingSection from './components/LapwingSection';
+import FamilyLoveNote from './components/FamilyLoveNote';
 
 export default function App() {
   return (
@@ -51,6 +52,8 @@ export default function App() {
           국립생물자원관 · OpenStreetMap · Wikimedia Commons
         </p>
       </footer>
+
+      <FamilyLoveNote />
     </div>
   );
 }

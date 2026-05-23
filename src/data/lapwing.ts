@@ -1,3 +1,5 @@
+import { birdImages, birdImageCredits } from './images';
+
 export interface MapPoint {
   name: string;
   lat: number;
@@ -18,8 +20,8 @@ export const lapwingInfo = {
   behavior: '작은 무리를 이루며 지면을 두드려 곤충·지렁이 등을 찾아 먹음',
   breeding: '유라시아 북부 초원·농경지 (한국에서는 드물게 번식 기록)',
   image: {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Vanellus_vanellus_-_Northern_Lapwing.jpg/800px-Vanellus_vanellus_-_Northern_Lapwing.jpg',
-    credit: 'Wikimedia Commons · CC BY-SA 2.0',
+    url: birdImages.lapwing,
+    credit: birdImageCredits.lapwing,
     alt: '댕기머리물떼새(Northern Lapwing) — 검은 머리와 녹색 금속광, 뒤로 솟은 댕기 깃이 특징',
   },
   sources: [
@@ -43,15 +45,15 @@ export const lapwingHabitats: MapPoint[] = [
   { name: '경기 평택', lat: 36.99, lng: 127.11, note: '논·저수지', type: 'habitat' },
 ];
 
-/** 대략적 이동 경로 (번식지 → 중간 휴식 → 월동지) */
+/** Approximate migration route (breeding → stopover → wintering) */
 export const migrationRoute: MapPoint[] = [
-  { name: '서·북유럽 번식지', lat: 55.0, lng: 10.0, note: '영국·네덜란드·스칸디나비아', type: 'breeding' },
-  { name: '동유럽·서부 시베리아', lat: 55.0, lng: 40.0, note: '러시아 서부·카자흐스탄', type: 'breeding' },
-  { name: '몽골·만주 번식지', lat: 48.0, lng: 105.0, note: '몽골·헤이룽장 북부', type: 'breeding' },
-  { name: '중국 동북부 (통과)', lat: 43.0, lng: 125.0, note: '가을·봄 이동 통로', type: 'stopover' },
-  { name: '한반도 (월동)', lat: 37.0, lng: 127.5, note: '10월–3월 월동', type: 'wintering' },
-  { name: '일본 서부 (월동)', lat: 35.0, lng: 133.0, note: '규슈·본州 서부', type: 'wintering' },
-  { name: '중국 화동 (월동)', lat: 31.0, lng: 121.0, note: '양쯔강 하류 일대', type: 'wintering' },
+  { name: 'W. & N. Europe (breeding)', lat: 55.0, lng: 10.0, note: 'UK · Netherlands · Scandinavia', type: 'breeding' },
+  { name: 'E. Europe · W. Siberia', lat: 55.0, lng: 40.0, note: 'W. Russia · Kazakhstan', type: 'breeding' },
+  { name: 'Mongolia · Manchuria', lat: 48.0, lng: 105.0, note: 'Mongolia · N. Heilongjiang', type: 'breeding' },
+  { name: 'NE China (flyway)', lat: 43.0, lng: 125.0, note: 'Autumn & spring migration corridor', type: 'stopover' },
+  { name: 'Korean Peninsula', lat: 37.0, lng: 127.5, note: 'Oct – Mar wintering', type: 'wintering' },
+  { name: 'W. Japan', lat: 35.0, lng: 133.0, note: 'Kyushu · W. Honshu', type: 'wintering' },
+  { name: 'E. China', lat: 31.0, lng: 121.0, note: 'Lower Yangtze region', type: 'wintering' },
 ];
 
 export const migrationPath: [number, number][] = [
