@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { loadDashboard } from '../api/loadDashboard';
 import type { DashboardData } from '../api/types';
 
 interface DashboardState {
@@ -21,14 +22,7 @@ export function useDashboardData() {
 
     async function load() {
       try {
-        const response = await fetch('/api/dashboard', {
-          signal: AbortSignal.timeout(120000),
-        });
-        if (!response.ok) {
-          const payload = await response.json().catch(() => ({}));
-          throw new Error(payload.error ?? `API error ${response.status}`);
-        }
-        const data = (await response.json()) as DashboardData;
+        const data = await loadDashboard();
         if (!cancelled) {
           setState({
             data,

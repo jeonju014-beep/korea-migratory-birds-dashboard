@@ -277,6 +277,11 @@ export async function fetchDashboardBundle(serviceKey: string | undefined) {
   }
 }
 
+function normalizeApiPath(url: string) {
+  const path = (url.split('?')[0] ?? '').replace(/\/+$/, '') || '/';
+  return path;
+}
+
 export function createApiHandler(serviceKey: string | undefined) {
   return async (
     req: { url?: string },
@@ -286,9 +291,9 @@ export function createApiHandler(serviceKey: string | undefined) {
       end: (body: string) => void;
     },
   ) => {
-    const url = (req.url ?? '').split('?')[0];
+    const path = normalizeApiPath(req.url ?? '');
 
-    if (url === '/api/dashboard') {
+    if (path === '/api/dashboard') {
       try {
         const data = await fetchDashboardBundle(serviceKey);
         res.statusCode = 200;

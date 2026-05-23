@@ -6,7 +6,8 @@ export function apiProxyMiddleware(serviceKey: string): Connect.NextHandleFuncti
   const handler = createApiHandler(serviceKey);
 
   return (req, res, next) => {
-    if (!req.url?.startsWith('/api/')) {
+    const path = (req.url?.split('?')[0] ?? '').replace(/\/+$/, '') || '/';
+    if (!path.startsWith('/api/')) {
       next();
       return;
     }
