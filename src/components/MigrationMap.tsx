@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, CircleMarker, Popup, Polyline } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import { migrationRoute, migrationPath, returnPath } from '../data/lapwing';
+import LeafletMapShell from './LeafletMapShell';
 
 const EURASIA_CENTER: LatLngExpression = [48, 70];
 
@@ -14,6 +15,7 @@ const typeStyles = {
 export default function MigrationMap() {
   return (
     <div className="h-[420px] w-full overflow-hidden rounded-3xl border-2 border-lilac-100 bg-white p-1 shadow-soft">
+      <LeafletMapShell className="flex h-full w-full items-center justify-center rounded-2xl bg-lilac-50 text-sm text-lilac-400">
       <MapContainer
         center={EURASIA_CENTER}
         zoom={3}
@@ -67,6 +69,7 @@ export default function MigrationMap() {
           );
         })}
       </MapContainer>
+      </LeafletMapShell>
     </div>
   );
 }

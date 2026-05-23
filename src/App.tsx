@@ -3,16 +3,15 @@ import KoreaSiteMap from './components/KoreaSiteMap';
 import BirdGrid from './components/BirdGrid';
 import LapwingSpotlight from './components/LapwingSpotlight';
 import SectionTitle from './components/SectionTitle';
-import LoadingCard from './components/LoadingCard';
 import ErrorBanner from './components/ErrorBanner';
 import { useDashboardData } from './hooks/useDashboardData';
 import { buildLapwingHabitats, buildMapSites } from './api/transform';
 
 export default function App() {
-  const { data, loading, error } = useDashboardData();
+  const { data, refreshing, error } = useDashboardData();
 
-  const mapSites = data ? buildMapSites(data) : [];
-  const lapwingHabitats = data ? buildLapwingHabitats(data) : [];
+  const mapSites = buildMapSites(data);
+  const lapwingHabitats = buildLapwingHabitats(data);
 
   return (
     <div className="min-h-screen">
@@ -26,7 +25,7 @@ export default function App() {
 
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <span className="cute-badge bg-white/70 text-blush-600 shadow-soft">
-            🐦 bird diary · live API
+            🐦 bird diary · {refreshing ? 'API 연결 중…' : 'live API'}
           </span>
           <h1 className="mt-4 font-display text-4xl leading-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
             우리 동네
@@ -59,7 +58,13 @@ export default function App() {
 
       <main className="mx-auto max-w-6xl space-y-14 px-4 py-12 sm:px-6 sm:py-16">
         {error && <ErrorBanner message={error} />}
-        {data?.warnings?.length ? (
+        {refreshing && (
+          <div className="flex items-center gap-2 rounded-2xl border border-blush-100 bg-white/70 px-4 py-3 text-sm text-blush-500">
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-blush-200 border-t-blush-500" />
+            공공 API에서 최신 데이터를 불러오는 중…
+          </div>
+        )}
+        {data.warnings?.length ? (
           <div className="rounded-2xl border border-lilac-100 bg-lilac-50/80 px-4 py-3 text-sm text-lilac-600">
             ℹ️ {data.warnings[0]}
           </div>
@@ -71,16 +76,10 @@ export default function App() {
             title="실시간 철새 현황"
             subtitle="공공데이터포털 API 기반"
           />
-          {loading || !data ? (
-            <LoadingCard />
-          ) : (
-            <>
-              <StatsOverview stats={data.stats} />
-              <p className="mt-4 rounded-2xl bg-white/50 px-4 py-2 text-xs text-blush-400">
-                📎 낙동강하구 생태계모니터링 · 울산시 철새 · KISTI 국내 조류분포 · 제주 철새도래지 · 습지보호지역 API
-              </p>
-            </>
-          )}
+          <StatsOverview stats={data.stats} />
+          <p className="mt-4 rounded-2xl bg-white/50 px-4 py-2 text-xs text-blush-400">
+            📎 낙동강하구 생태계모니터링 · 울산시 철새 · KISTI 국내 조류분포 · 제주 철새도래지 · 습지보호지역 API
+          </p>
         </section>
 
         <section>
@@ -92,9 +91,7 @@ export default function App() {
           <p className="-mt-3 mb-5 text-sm text-blush-400">
             💗 핑크 마커 = 댕기머리물떼새 관찰 지역
           </p>
-          {loading || !data ? <LoadingCard message="지도 데이터 불러오는 중..." /> : (
-            <KoreaSiteMap sites={mapSites} />
-          )}
+          <KoreaSiteMap sites={mapSites} />
         </section>
 
         <section>
@@ -103,14 +100,10 @@ export default function App() {
             title="주요 겨울철새 친구들"
             subtitle="울산 철새 마스터 + 낙동강하구 조사"
           />
-          {loading || !data ? <LoadingCard /> : <BirdGrid data={data} />}
+          <BirdGrid data={data} />
         </section>
 
-        {loading || !data ? (
-          <LoadingCard message="댕기머리물떼새 정보 불러오는 중..." />
-        ) : (
-          <LapwingSpotlight data={data} habitats={lapwingHabitats} />
-        )}
+        <LapwingSpotlight data={data} habitats={lapwingHabitats} />
       </main>
 
       <footer className="border-t border-blush-100/80 bg-white/60 py-10 text-center backdrop-blur-sm">

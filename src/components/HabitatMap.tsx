@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import type { HabitatPoint } from '../api/types';
+import LeafletMapShell from './LeafletMapShell';
 
 const KOREA_CENTER: LatLngExpression = [36.5, 127.5];
 
@@ -11,6 +12,7 @@ interface HabitatMapProps {
 export default function HabitatMap({ points }: HabitatMapProps) {
   return (
     <div className="h-[380px] w-full overflow-hidden rounded-3xl border-2 border-blush-100 bg-white p-1 shadow-soft">
+      <LeafletMapShell className="flex h-full w-full items-center justify-center rounded-2xl bg-blush-50 text-sm text-blush-400">
       <MapContainer
         center={KOREA_CENTER}
         zoom={7}
@@ -47,6 +49,7 @@ export default function HabitatMap({ points }: HabitatMapProps) {
           </CircleMarker>
         ))}
       </MapContainer>
+      </LeafletMapShell>
     </div>
   );
 }

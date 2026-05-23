@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
-import { loadDashboard } from '../api/loadDashboard';
+import { getStaticDashboard, loadDashboard } from '../api/loadDashboard';
 import type { DashboardData } from '../api/types';
 
 interface DashboardState {
-  data: DashboardData | null;
-  loading: boolean;
+  data: DashboardData;
+  refreshing: boolean;
   error: string | null;
-  partial: boolean;
 }
 
 export function useDashboardData() {
   const [state, setState] = useState<DashboardState>({
-    data: null,
-    loading: true,
+    data: getStaticDashboard(),
+    refreshing: true,
     error: null,
-    partial: false,
   });
 
   useEffect(() => {
@@ -26,19 +24,17 @@ export function useDashboardData() {
         if (!cancelled) {
           setState({
             data,
-            loading: false,
+            refreshing: false,
             error: null,
-            partial: Boolean(data.warnings?.length),
           });
         }
       } catch (error) {
         if (!cancelled) {
-          setState({
-            data: null,
-            loading: false,
+          setState((prev) => ({
+            ...prev,
+            refreshing: false,
             error: error instanceof Error ? error.message : '데이터를 불러오지 못했습니다',
-            partial: false,
-          });
+          }));
         }
       }
     }

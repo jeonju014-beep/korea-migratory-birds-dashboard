@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "npm run build && tsx server/start.ts",
-    "start": "tsx server/start.ts"
+    "preview": "npm run build && npm run start",
+    "start": "tsx server/start.ts",
+    "serve": "npm run build && npm run start"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

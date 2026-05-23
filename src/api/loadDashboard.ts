@@ -1,4 +1,7 @@
 import type { BirdDistributionRecord, DashboardData, NkLapwingRecord, UlsanEmergence } from './types';
+import birdDistributionData from '../data/lapwing-distribution.json';
+import lapwingEmergenceData from '../data/ulsan-lapwing-emergence.json';
+import nkLapwingData from '../data/nk-lapwing-recent.json';
 
 const LAPWING_MASTER = {
   migrant_no: 'usmgt036',
@@ -15,31 +18,23 @@ const LAPWING_MASTER = {
   copyright1: 'Wikimedia Commons',
 };
 
-async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetch(path);
-  if (!response.ok) {
-    throw new Error(`Failed to load ${path}: ${response.status}`);
-  }
-  return response.json() as Promise<T>;
-}
-
-export async function loadStaticDashboard(): Promise<DashboardData> {
-  const [birdDistribution, lapwingEmergence, nkLapwing] = await Promise.all([
-    fetchJson<BirdDistributionRecord[]>('/data/lapwing-distribution.json'),
-    fetchJson<UlsanEmergence[]>('/data/ulsan-lapwing-emergence.json'),
-    fetchJson<NkLapwingRecord[]>('/data/nk-lapwing-recent.json'),
-  ]);
-
-  const latestSurveyDate = nkLapwing
-    .map((row) => row.exmnYmd)
-    .filter(Boolean)
-    .sort()
-    .pop() ?? '';
+function buildStaticDashboard(
+  birdDistribution: BirdDistributionRecord[],
+  lapwingEmergence: UlsanEmergence[],
+  nkLapwing: NkLapwingRecord[],
+  warning?: string,
+): DashboardData {
+  const latestSurveyDate =
+    nkLapwing
+      .map((row) => row.exmnYmd)
+      .filter(Boolean)
+      .sort()
+      .pop() ?? '';
 
   return {
     fetchedAt: new Date().toISOString(),
     source: 'static',
-    warnings: ['API 서버 없이 로컬 데이터로 표시합니다.'],
+    warnings: warning ? [warning] : [],
     lapwingMaster: LAPWING_MASTER,
     lapwingEmergence,
     birdDistribution,
@@ -61,10 +56,46 @@ export async function loadStaticDashboard(): Promise<DashboardData> {
   };
 }
 
+export function getStaticDashboard(): DashboardData {
+  return buildStaticDashboard(
+    birdDistributionData as BirdDistributionRecord[],
+    lapwingEmergenceData as UlsanEmergence[],
+    nkLapwingData as NkLapwingRecord[],
+    '로컬 데이터로 먼저 표시합니다. API에서 최신 정보를 불러오는 중…',
+  );
+}
+
+async function fetchJsonFallback<T>(path: string): Promise<T> {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const response = await fetch(`${base}${path}`);
+  if (!response.ok) {
+    throw new Error(`Failed to load ${path}: ${response.status}`);
+  }
+  return response.json() as Promise<T>;
+}
+
+export async function loadStaticDashboard(): Promise<DashboardData> {
+  try {
+    return getStaticDashboard();
+  } catch {
+    const [birdDistribution, lapwingEmergence, nkLapwing] = await Promise.all([
+      fetchJsonFallback<BirdDistributionRecord[]>('/data/lapwing-distribution.json'),
+      fetchJsonFallback<UlsanEmergence[]>('/data/ulsan-lapwing-emergence.json'),
+      fetchJsonFallback<NkLapwingRecord[]>('/data/nk-lapwing-recent.json'),
+    ]);
+    return buildStaticDashboard(
+      birdDistribution,
+      lapwingEmergence,
+      nkLapwing,
+      'API 서버 없이 로컬 데이터로 표시합니다.',
+    );
+  }
+}
+
 export async function loadDashboard(): Promise<DashboardData> {
   try {
-    const response = await fetch('/api/dashboard', {
-      signal: AbortSignal.timeout(120000),
+    const response = await fetch(`${import.meta.env.BASE_URL}api/dashboard`, {
+      signal: AbortSignal.timeout(20000),
     });
 
     if (response.ok) {

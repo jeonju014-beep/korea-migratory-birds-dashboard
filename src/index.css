@@ -8,7 +8,9 @@
   }
 
   body {
-    @apply text-blush-700 antialiased;
+    color: #c43d66;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-image: linear-gradient(135deg, #fff5f7 0%, #faf5ff 40%, #fff8f0 100%);
     background-attachment: fixed;
   }
@@ -16,19 +18,40 @@
 
 @layer components {
   .cute-card {
-    @apply rounded-3xl border border-white/80 bg-white/75 shadow-soft backdrop-blur-sm;
+    border-radius: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.8);
+    background-color: rgb(255 255 255 / 0.75);
+    box-shadow: 0 4px 24px -4px rgba(244, 114, 154, 0.18);
+    backdrop-filter: blur(4px);
   }
 
   .cute-section-title {
-    @apply font-display text-2xl text-blush-600 sm:text-3xl;
+    font-family: Jua, 'Gowun Dodum', sans-serif;
+    font-size: 1.5rem;
+    color: #e05580;
+  }
+
+  @media (min-width: 640px) {
+    .cute-section-title {
+      font-size: 1.875rem;
+    }
   }
 
   .cute-badge {
-    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .sparkle-dot {
-    @apply absolute rounded-full bg-white/60 blur-sm;
+    position: absolute;
+    border-radius: 9999px;
+    background-color: rgb(255 255 255 / 0.6);
+    filter: blur(4px);
   }
 }
 
@@ -39,7 +62,9 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply rounded-2xl border border-blush-100 shadow-card;
+  border-radius: 1rem;
+  border: 1px solid #ffe8ee;
+  box-shadow: 0 8px 32px -8px rgba(168, 85, 247, 0.12);
 }
 
 .leaflet-popup-content {
@@ -49,5 +74,5 @@
 }
 
 .leaflet-popup-tip {
-  @apply bg-white;
+  background-color: #fff;
 }
