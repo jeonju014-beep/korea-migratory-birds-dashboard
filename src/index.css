@@ -10,31 +10,19 @@
   body {
     color: #c43d66;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-image: linear-gradient(135deg, #fff5f7 0%, #faf5ff 40%, #fff8f0 100%);
+    background: linear-gradient(160deg, #fff5f7 0%, #faf5ff 45%, #fff8f0 100%);
     background-attachment: fixed;
+    min-height: 100vh;
   }
 }
 
 @layer components {
-  .cute-card {
+  .glass-card {
     border-radius: 1.5rem;
-    border: 1px solid rgb(255 255 255 / 0.8);
-    background-color: rgb(255 255 255 / 0.75);
+    border: 1px solid rgb(255 255 255 / 0.85);
+    background: rgb(255 255 255 / 0.72);
     box-shadow: 0 4px 24px -4px rgba(244, 114, 154, 0.18);
-    backdrop-filter: blur(4px);
-  }
-
-  .cute-section-title {
-    font-family: Jua, 'Gowun Dodum', sans-serif;
-    font-size: 1.5rem;
-    color: #e05580;
-  }
-
-  @media (min-width: 640px) {
-    .cute-section-title {
-      font-size: 1.875rem;
-    }
+    backdrop-filter: blur(8px);
   }
 
   .cute-badge {
@@ -47,11 +35,12 @@
     font-weight: 500;
   }
 
-  .sparkle-dot {
+  .sparkle {
     position: absolute;
     border-radius: 9999px;
-    background-color: rgb(255 255 255 / 0.6);
-    filter: blur(4px);
+    background: rgb(255 255 255 / 0.55);
+    filter: blur(6px);
+    pointer-events: none;
   }
 }
 
@@ -74,5 +63,5 @@
 }
 
 .leaflet-popup-tip {
-  background-color: #fff;
+  background: #fff;
 }

@@ -1,120 +1,54 @@
-import StatsOverview from './components/StatsOverview';
-import KoreaSiteMap from './components/KoreaSiteMap';
-import BirdGrid from './components/BirdGrid';
-import LapwingSpotlight from './components/LapwingSpotlight';
+import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
-import ErrorBanner from './components/ErrorBanner';
-import { useDashboardData } from './hooks/useDashboardData';
-import { buildLapwingHabitats, buildMapSites } from './api/transform';
+import StatsOverview from './components/StatsOverview';
+import DistributionMap from './components/DistributionMap';
+import BirdCards from './components/BirdCards';
+import LapwingSection from './components/LapwingSection';
 
 export default function App() {
-  const { data, refreshing, error } = useDashboardData();
-
-  const mapSites = buildMapSites(data);
-  const lapwingHabitats = buildLapwingHabitats(data);
-
   return (
     <div className="min-h-screen">
-      <header className="relative overflow-hidden bg-hero">
-        <div className="sparkle-dot left-[8%] top-8 h-16 w-16" />
-        <div className="sparkle-dot right-[12%] top-16 h-24 w-24" />
-        <div className="sparkle-dot bottom-6 left-[20%] h-20 w-20" />
-        <div className="absolute right-6 top-6 text-3xl opacity-70">✨</div>
-        <div className="absolute bottom-10 right-[18%] text-2xl opacity-60">🌷</div>
-        <div className="absolute left-[15%] top-[40%] text-xl opacity-50">💫</div>
-
-        <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-          <span className="cute-badge bg-white/70 text-blush-600 shadow-soft">
-            🐦 bird diary · {refreshing ? 'API 연결 중…' : 'live API'}
-          </span>
-          <h1 className="mt-4 font-display text-4xl leading-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
-            우리 동네
-            <br />
-            철새 분포 대시보드
-          </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
-            공공데이터 API로 실시간에 가깝게 철새 분포를 확인해요.
-            <span className="mt-1 block font-medium text-white">
-              💕 내 최애 — 댕기머리물떼새도 API에서 사진·기록을 가져왔어!
-            </span>
-          </p>
-          <a
-            href="#lapwing"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-display text-base text-blush-600 shadow-glow transition hover:scale-105 hover:bg-blush-50 active:scale-95"
-          >
-            🎀 댕기머리물떼새 보러가기
-          </a>
-        </div>
-
-        <div className="absolute -bottom-1 left-0 right-0">
-          <svg viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path
-              d="M0 48V20C240 44 480 0 720 20C960 40 1200 8 1440 24V48H0Z"
-              fill="#fff5f7"
-            />
-          </svg>
-        </div>
-      </header>
+      <Header />
 
       <main className="mx-auto max-w-6xl space-y-14 px-4 py-12 sm:px-6 sm:py-16">
-        {error && <ErrorBanner message={error} />}
-        {refreshing && (
-          <div className="flex items-center gap-2 rounded-2xl border border-blush-100 bg-white/70 px-4 py-3 text-sm text-blush-500">
-            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-blush-200 border-t-blush-500" />
-            공공 API에서 최신 데이터를 불러오는 중…
-          </div>
-        )}
-        {data.warnings?.length ? (
-          <div className="rounded-2xl border border-lilac-100 bg-lilac-50/80 px-4 py-3 text-sm text-lilac-600">
-            ℹ️ {data.warnings[0]}
-          </div>
-        ) : null}
-
         <section>
           <SectionTitle
             emoji="📊"
-            title="실시간 철새 현황"
-            subtitle="공공데이터포털 API 기반"
+            title="2024–2025 겨울철새 현황"
+            subtitle="환경부 국립생물자원관 동시센서스 기준"
           />
-          <StatsOverview stats={data.stats} />
-          <p className="mt-4 rounded-2xl bg-white/50 px-4 py-2 text-xs text-blush-400">
-            📎 낙동강하구 생태계모니터링 · 울산시 철새 · KISTI 국내 조류분포 · 제주 철새도래지 · 습지보호지역 API
-          </p>
+          <StatsOverview />
         </section>
 
         <section>
           <SectionTitle
             emoji="🗺️"
-            title="전국 철새 도래지"
-            subtitle="울산 관측구간 · 제주 · 습지 · 낙동강하구"
+            title="전국 주요 철새 도래지"
+            subtitle="습지·하구·호수 — 겨울철새가 모이는 대표 지역"
           />
           <p className="-mt-3 mb-5 text-sm text-blush-400">
-            💗 핑크 마커 = 댕기머리물떼새 관찰 지역
+            💗 핑크 마커 = 댕기머리물떼새도 함께 관찰되는 지역
           </p>
-          <KoreaSiteMap sites={mapSites} />
+          <DistributionMap />
         </section>
 
         <section>
           <SectionTitle
             emoji="🪶"
-            title="주요 겨울철새 친구들"
-            subtitle="울산 철새 마스터 + 낙동강하구 조사"
+            title="겨울철새 친구들"
+            subtitle="전국에서 자주 만날 수 있는 대표 종"
           />
-          <BirdGrid data={data} />
+          <BirdCards />
         </section>
 
-        <LapwingSpotlight data={data} habitats={lapwingHabitats} />
+        <LapwingSection />
       </main>
 
       <footer className="border-t border-blush-100/80 bg-white/60 py-10 text-center backdrop-blur-sm">
-        <p className="font-display text-blush-500">
-          🌸 우리 동네 철새 분포 대시보드
-        </p>
-        <p className="mt-2 text-sm text-blush-300">
-          공공데이터포털 API 연동 · with love
-        </p>
+        <p className="font-display text-blush-500">🌸 우리 동네 철새 분포 대시보드</p>
+        <p className="mt-2 text-sm text-blush-300">딸과 함께 새 관찰 · with love</p>
         <p className="mt-1 text-xs text-blush-200">
-          data.go.kr · api.odcloud.kr · OpenStreetMap
+          국립생물자원관 · OpenStreetMap · Wikimedia Commons
         </p>
       </footer>
     </div>

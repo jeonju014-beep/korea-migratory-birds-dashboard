@@ -1,54 +1,68 @@
-import type { DashboardStats } from '../api/types';
-import { formatNumber, formatSurveyDate } from '../api/transform';
+import { censusSummary } from '../data/birds';
 
-const statStyles = [
-  { emoji: '📡', bg: 'from-blush-100 to-blush-50', accent: 'text-blush-500' },
-  { emoji: '📍', bg: 'from-lilac-100 to-lilac-50', accent: 'text-lilac-500' },
-  { emoji: '🦆', bg: 'from-mint-100 to-mint-100/50', accent: 'text-mint-400' },
-  { emoji: '💕', bg: 'from-cream-200 to-cream-100', accent: 'text-blush-400' },
-];
+const trendColor = {
+  증가: 'bg-mint-100 text-mint-400',
+  감소: 'bg-blush-100 text-blush-500',
+  유지: 'bg-lilac-100 text-lilac-500',
+} as const;
 
-interface StatsOverviewProps {
-  stats: DashboardStats;
-}
-
-export default function StatsOverview({ stats }: StatsOverviewProps) {
+export default function StatsOverview() {
   const cards = [
     {
-      label: '낙동강하구 최근 조사',
-      value: stats.latestSurveyDate ? formatSurveyDate(stats.latestSurveyDate) : '—',
+      emoji: '🦆',
+      label: '겨울철 조사 개체',
+      value: censusSummary.totalBirds,
+      note: censusSummary.season,
     },
     {
-      label: '전국 관측·습지 지점',
-      value: `${stats.observatoryCount + stats.wetlandSiteCount}곳`,
+      emoji: '📍',
+      label: '전국 조사 지점',
+      value: `${censusSummary.surveySites}곳`,
+      note: '습지·하구·호수',
     },
     {
-      label: '최근 표본 조류 수',
-      value: `${formatNumber(stats.nkSampleTotal)}마리`,
+      emoji: '📉',
+      label: '전년 대비',
+      value: censusSummary.changeFromLastYear,
+      note: '동시센서스 기준',
     },
     {
-      label: '댕기머리물떼새 기록',
-      value: `${stats.lapwingRecordCount}건`,
+      emoji: '👑',
+      label: '가장 많이 본 새',
+      value: censusSummary.topSpecies[0].name,
+      note: '2024–2025 겨울',
     },
   ];
 
   return (
-    <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {cards.map((stat, i) => {
-        const style = statStyles[i];
-        return (
-          <article
-            key={stat.label}
-            className={`cute-card bg-gradient-to-br ${style.bg} p-5 transition hover:-translate-y-1 hover:shadow-card`}
-          >
-            <div className="flex items-center justify-between">
-              <p className={`text-sm font-medium ${style.accent}`}>{stat.label}</p>
-              <span className="text-xl">{style.emoji}</span>
-            </div>
-            <p className="mt-3 font-display text-xl text-blush-600 sm:text-2xl">{stat.value}</p>
-          </article>
-        );
-      })}
-    </section>
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((card) => (
+          <div key={card.label} className="glass-card p-5 transition hover:-translate-y-0.5 hover:shadow-card">
+            <span className="text-2xl">{card.emoji}</span>
+            <p className="mt-2 text-xs font-medium text-lilac-400">{card.label}</p>
+            <p className="mt-1 font-display text-xl text-blush-600">{card.value}</p>
+            <p className="mt-1 text-xs text-blush-300">{card.note}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="glass-card p-5">
+        <p className="text-sm font-medium text-blush-500">🏆 겨울철 주요 종 TOP 5</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {censusSummary.topSpecies.map((species, i) => (
+            <span
+              key={species.name}
+              className={`cute-badge ${i === 0 ? 'bg-blush-400 text-white' : 'bg-white text-blush-500 ring-1 ring-blush-100'}`}
+            >
+              {i + 1}. {species.name}
+            </span>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-blush-300">{censusSummary.source}</p>
+      </div>
+    </div>
   );
 }
+
+export { trendColor };
